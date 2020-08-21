@@ -38,6 +38,71 @@ class MainPage extends StatelessWidget{
         ],
       ),
       drawer: mainPageDrawer(),
+      body: RadioChoiseGroup(),
+      bottomNavigationBar: BottomAppBar(
+        shape: const CircularNotchedRectangle(),
+        color: Colors.blue,
+        elevation: 20.0,
+        child: Container(height: 50.0,),
+      ),
+      floatingActionButton: FloatingActionButton(
+        tooltip: 'Продолжить',
+        child: Icon(Icons.arrow_forward),
+        onPressed: (){
+          //pressNextBtn(context);
+        },
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndDocked,
+    );
+  }
+}
+
+class RadioChoiseGroup extends StatefulWidget{
+  @override
+  RadioGroupState createState () => RadioGroupState();
+}
+
+int _selected = 0;
+
+class RadioGroupState extends State<RadioChoiseGroup>{
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+        children:<Widget>[
+          RadioListTile(
+            value: 0,
+            groupValue: _selected,
+            title: Text('Обучающий тест по теме...'),
+            subtitle: Text('При решении теста появляются подсказки с правильными ответами'),
+            onChanged: (int value){
+              setState((){
+                _selected = value;
+              });
+            },
+          ),
+          RadioListTile(
+            value: 1,
+            groupValue: _selected,
+            title: Text('Контрольный тест по теме...'),
+            subtitle: Text('Тест только по выбранной теме. Правильные ответы можно будет посмотреть по окончании теста.'),
+            onChanged: (int value){
+              setState(() {
+                _selected = value;
+              });
+            },
+          ),
+          RadioListTile(
+            value: 2,
+            groupValue: _selected,
+            title: Text('Конотрольный тест по курсу'),
+            subtitle: Text('Вопросы выбираются случайным образом из всех тем курса. Правильные ответы можно посмотреть после окончания теста'),
+            onChanged: (int value){
+              setState(() {
+                _selected = value;
+              });
+            },
+          )
+        ]
     );
   }
 }

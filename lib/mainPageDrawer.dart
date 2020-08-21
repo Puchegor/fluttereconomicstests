@@ -50,25 +50,28 @@ class mainPageDrawerState extends State<mainPageDrawer>{
   }
 }
 
+double numberOfQuestions = 20;
+double timer = 30;
+
 class SliderQuestionsWidget extends StatefulWidget{
   @override
   SliderQuestionsWidgetState createState()=>SliderQuestionsWidgetState();
 }
 
 class SliderQuestionsWidgetState extends State<SliderQuestionsWidget>{
-  //var _value = numberOfQuestions;
+  var _value = numberOfQuestions;
   @override
   Widget build(BuildContext context) {
     return Slider(
-      //value: _value,
+      value: _value,
       activeColor: Colors.amber,
       min: 0,
       max: 100.0,
       divisions: 20,
-      //label: '${_value.round()} вопросов',
+      label: '${_value.round()} вопросов',
       onChanged: (double value){
         setState(() {
-          //_value = value;
+          _value = value;
         });
       },
       onChangeEnd: (double value){
@@ -84,19 +87,19 @@ class SliderTimeWidget extends StatefulWidget{
 }
 
 class SliderTimeWidgetState extends State<SliderTimeWidget>{
-  //var _value = timer;
+  var _value = timer;
   @override
   Widget build(BuildContext context) {
     return Slider(
-      //value: _value,
+      value: _value,
       activeColor: Colors.amber,
       min: 0,
       max: 60.0,
       divisions: 12,
-      //label: '${_value.round()} минут',
+      label: '${_value.round()} минут',
       onChanged: (double value){
         setState(() {
-          //_value = value;
+          _value = value;
         });
       },
       onChangeEnd: (double value){
