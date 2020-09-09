@@ -1,4 +1,5 @@
 
+import 'package:economicstests/Options.dart';
 import 'package:flutter/material.dart';
 
 class mainPageDrawer extends StatefulWidget{
@@ -50,16 +51,13 @@ class mainPageDrawerState extends State<mainPageDrawer>{
   }
 }
 
-double numberOfQuestions = 20;
-double timer = 30;
-
 class SliderQuestionsWidget extends StatefulWidget{
   @override
   SliderQuestionsWidgetState createState()=>SliderQuestionsWidgetState();
 }
 
 class SliderQuestionsWidgetState extends State<SliderQuestionsWidget>{
-  var _value = numberOfQuestions;
+  var _value = Options.getUserNumberOfQuestions().roundToDouble();
   @override
   Widget build(BuildContext context) {
     return Slider(
@@ -75,7 +73,7 @@ class SliderQuestionsWidgetState extends State<SliderQuestionsWidget>{
         });
       },
       onChangeEnd: (double value){
-        //Setup.setNumberOfQuestions(value);
+        Options.setUserNumberOfQuestions(value.round());
       },
     );
   }
@@ -87,7 +85,7 @@ class SliderTimeWidget extends StatefulWidget{
 }
 
 class SliderTimeWidgetState extends State<SliderTimeWidget>{
-  var _value = timer;
+  var _value = Options.getUserTimer().roundToDouble();
   @override
   Widget build(BuildContext context) {
     return Slider(
@@ -103,7 +101,7 @@ class SliderTimeWidgetState extends State<SliderTimeWidget>{
         });
       },
       onChangeEnd: (double value){
-        //Setup.setTime(value);
+        Options.setUserTimer(value.floor());
       },
     );
   }

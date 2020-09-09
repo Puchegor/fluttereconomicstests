@@ -1,14 +1,18 @@
 import 'dart:io';
 
+import 'package:economicstests/Options.dart';
+import 'package:economicstests/dataBase.dart';
 import 'package:economicstests/mainPageDrawer.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Options.init();
+  await dataBase.init();
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
