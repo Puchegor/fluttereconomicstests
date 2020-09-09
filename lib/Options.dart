@@ -15,12 +15,10 @@ abstract class Options{
     if (_userTimer == null){
       setUserTimer(_defaultTime);
     }
-    print ('DEBUG: userTimer = $_userTimer');
     _userNumberOfQuestions = _preferences.getInt('userNumberOfQuestions');
     if (_userNumberOfQuestions == null){
       setUserNumberOfQuestions(_defaultNumberOfQuestions);
     }
-    print('DEBUG: userNumberOfQuestions = $_userNumberOfQuestions');
   }
 
   static void setUserTimer(int timer){

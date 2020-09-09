@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:economicstests/Options.dart';
+import 'package:economicstests/Topic.dart';
 import 'package:economicstests/dataBase.dart';
 import 'package:economicstests/mainPageDrawer.dart';
 import 'package:flutter/material.dart';
@@ -109,4 +110,26 @@ class RadioGroupState extends State<RadioChoiseGroup>{
         ]
     );
   }
+}
+
+void pressNextBtn(BuildContext context){
+  switch(_selected){
+    case 0:
+      runTopicChoise(context, false);
+      break;
+    case 1:
+      break;
+    case 2:
+      break;
+  }
+}
+
+void runTopicChoise(BuildContext context, bool isControl)async{
+  List<Map>_resultSet = await dataBase.select('SELECT * FROM topics');
+  List<topic> topics = [];
+  _resultSet.forEach((element) {
+    topic top = new topic(element.values.elementAt(0),
+        element.values.elementAt(2));
+    topics.add(top);
+  });
 }
