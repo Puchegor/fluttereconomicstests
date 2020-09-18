@@ -4,6 +4,7 @@ import 'package:economicstests/Options.dart';
 import 'package:economicstests/Topic.dart';
 import 'package:economicstests/dataBase.dart';
 import 'package:economicstests/mainPageDrawer.dart';
+import 'package:economicstests/topicChoiseWindow.dart';
 import 'package:flutter/material.dart';
 
 Future<void> main() async {
@@ -54,7 +55,7 @@ class MainPage extends StatelessWidget{
         tooltip: 'Продолжить',
         child: Icon(Icons.arrow_forward),
         onPressed: (){
-          //pressNextBtn(context);
+          pressNextBtn(context);
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.miniEndDocked,
@@ -132,4 +133,5 @@ void runTopicChoise(BuildContext context, bool isControl)async{
         element.values.elementAt(2));
     topics.add(top);
   });
+  Navigator.push(context, MaterialPageRoute(builder: (context)=>topicChoiseWindow(topics:topics)));
 }
