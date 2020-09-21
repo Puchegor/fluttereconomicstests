@@ -33,6 +33,7 @@ abstract class dataBase{
   }
 
   static Future<List<Map>>select(String sql)async{
+    //openDatabase(_dbPath);
     return await _dataBase.rawQuery(sql);
   }
 }
