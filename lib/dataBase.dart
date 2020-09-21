@@ -15,7 +15,6 @@ abstract class dataBase{
     _dbDir = await getDatabasesPath();
     _dbPath = join(_dbDir, _dbName);
     if (await File(_dbPath).exists()){
-      print('1. DATABASE EXISTS');
       _dataBase = await openDatabase(_dbPath);
       return;
     }
