@@ -22,36 +22,50 @@ class testPageState extends State<testPage>{
       ),
       body: FutureBuilder(
         future: questions(widget.idTopic),
+        initialData: List(),
         builder: (context, snapshot){
-          return snapshot.hasData ? Text('Чё-та есть') :
-          Center( child: CircularProgressIndicator(),);
+          if(snapshot.connectionState == ConnectionState.waiting)
+            return Center(child: CircularProgressIndicator(),);
+          else if (snapshot.hasError)
+            return Text('ERROR: ${snapshot.error}');
+          else
+            return ListView.builder(
+                itemCount: snapshot.data.length,
+                itemBuilder: (buildContext, index){
+                  return Card(
+                    child: ListTile(
+                      title: Text(snapshot.data.toString()),
+                    ),
+                  );
+                });
         },
       ),
     );
   }
 }
 
-Future<List<Question>> questions(int idTopic) async {
+Future<List<int>> questions(int idTopic) async {
+  //dataBase.init();
   List<Question>test = [];
   List<int>ids = await getQuestionsIDs(idTopic);
   ids.forEach((idQuestion) {
     getQuestion(idQuestion).then((value) => test.add(value));
   });
-  return test;
+  return ids;
 }
 
 Future<List<int>>getQuestionsIDs(int idTopic) async{
-  List<int>ids;
+  print('Вход в getQuestionsIDs');
+  List<int>ids = [];
   List<Map>_resultSet = await dataBase.select('SELECT _id FROM questions WHERE idTopic = $idTopic');
   _resultSet.forEach((element) {
     ids.add(element.values.elementAt(0));
   });
-  print('IDs: $ids');
   return ids;
 }
 
 Future<Question>getQuestion(int idQuestion) async {
-  List<Map>_resultSet = await dataBase.select('SELECT * FROM questions WHERE idQuestion = $idQuestion');
+  List<Map>_resultSet = await dataBase.select('SELECT * FROM questions WHERE _id = $idQuestion');
   String nameQuestion = _resultSet.first.values.elementAt(2);
   List<Answer>answers = await getAnswers(idQuestion);
   String correctAnswer = _resultSet.first.values.elementAt(3);
@@ -70,5 +84,6 @@ Future<List<Answer>>getAnswers(int idQuestion) async {
     Answer answer = new Answer(idAnswer, nameAnswer, isTrue);
     answers.add(answer);
   });
+  print('Answers: ${answers[0]}');
   return answers;
 }
