@@ -13,6 +13,7 @@ class testPage extends StatefulWidget{
 }
 
 class testPageState extends State<testPage>{
+  bool _answer;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +22,7 @@ class testPageState extends State<testPage>{
         elevation: 20.0,
       ),
       body: FutureBuilder(
-        future: questions(widget.idTopic),
+        future: getQuestionsIDs(widget.idTopic),
         initialData: List(),
         builder: (context, snapshot){
           if(snapshot.connectionState == ConnectionState.waiting)
@@ -33,25 +34,60 @@ class testPageState extends State<testPage>{
                 itemCount: snapshot.data.length,
                 itemBuilder: (buildContext, index){
                   return Card(
-                    child: ListTile(
-                      title: Text(snapshot.data.toString()),
+                    elevation: 20.0,
+                    color: Colors.white,
+                    shadowColor: Colors.black,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10))
                     ),
+                    child: FutureBuilder(
+                      future: getQuestion(snapshot.data[index]),
+                      builder: (context, snapQuestion){
+                        if(snapQuestion.connectionState == ConnectionState.waiting)
+                          return Center(child: CircularProgressIndicator(),);
+                        else if (snapQuestion.hasError)
+                          return Text('ERROR: ${snapQuestion.error}');
+                        else
+                          return Column(
+                            children: <Widget>[
+                              Text(snapQuestion.data.getNameQuestion(),
+                                style: TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold),
+                                textAlign: TextAlign.left,),
+                              Container(
+                                  child: ListView.builder(
+                                      shrinkWrap: true,
+                                      itemCount: snapQuestion.data.getAnswers().length,
+                                      itemBuilder: (bc, ind){
+                                        return RadioListTile(
+                                          title: Text(snapQuestion.data.getAnswers()[ind].getNameAnswer(),
+                                            style: TextStyle(color: Colors.black),),
+                                          value: snapQuestion.data.getAnswers()[ind].getIsTrue(),
+                                          groupValue: _answer,
+                                        );
+                                      })
+                              ),
+                              IconButton(icon: Icon(Icons.assignment_turned_in),
+                              color: Colors.teal,
+                              //onPressed: {},)
+                            ],
+                          );
+                      },
+                    )
                   );
                 });
         },
       ),
+      bottomNavigationBar: BottomAppBar(
+        color: Colors.blue,
+        elevation: 20.0,
+        child: Container(
+          height: 50.0,
+        ),
+      ),
     );
   }
-}
-
-Future<List<int>> questions(int idTopic) async {
-  //dataBase.init();
-  List<Question>test = [];
-  List<int>ids = await getQuestionsIDs(idTopic);
-  ids.forEach((idQuestion) {
-    getQuestion(idQuestion).then((value) => test.add(value));
-  });
-  return ids;
 }
 
 Future<List<int>>getQuestionsIDs(int idTopic) async{
@@ -61,6 +97,7 @@ Future<List<int>>getQuestionsIDs(int idTopic) async{
   _resultSet.forEach((element) {
     ids.add(element.values.elementAt(0));
   });
+  ids.shuffle();
   return ids;
 }
 
@@ -84,6 +121,6 @@ Future<List<Answer>>getAnswers(int idQuestion) async {
     Answer answer = new Answer(idAnswer, nameAnswer, isTrue);
     answers.add(answer);
   });
-  print('Answers: ${answers[0]}');
+  answers.shuffle();
   return answers;
 }
