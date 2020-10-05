@@ -13,7 +13,7 @@ class testPage extends StatefulWidget{
 }
 
 class testPageState extends State<testPage>{
-  bool _answer;
+  int _answer;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,7 +63,7 @@ class testPageState extends State<testPage>{
                                         return RadioListTile(
                                           title: Text(snapQuestion.data.getAnswers()[ind].getNameAnswer(),
                                             style: TextStyle(color: Colors.black),),
-                                          value: snapQuestion.data.getAnswers()[ind].getIsTrue(),
+                                          value: snapQuestion.data.getAnswers()[ind].getIdAnswer(),
                                           groupValue: _answer,
                                         );
                                       })
