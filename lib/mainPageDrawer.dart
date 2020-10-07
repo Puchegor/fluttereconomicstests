@@ -43,6 +43,24 @@ class mainPageDrawerState extends State<mainPageDrawer>{
                 SliderTimeWidget(),
               ],
             )
+        ),
+        Divider(height: 10,
+          thickness: 2,
+          color: Colors.grey,
+          indent: 10,
+          endIndent: 10,
+        ),
+        Card(
+          child: Column(
+            children: <Widget>[
+              ListTile(
+                leading: Icon(Icons.font_download),
+                title: Text('Размер шрифта'),
+                subtitle: Text('Размер шрифта в тестах'),
+              ),
+              SliderFontSizeWidget()
+            ],
+          ),
         )
       ],
     )
@@ -102,6 +120,34 @@ class SliderTimeWidgetState extends State<SliderTimeWidget>{
       },
       onChangeEnd: (double value){
         Options.setUserTimer(value.floor());
+      },
+    );
+  }
+}
+
+class SliderFontSizeWidget extends StatefulWidget{
+  @override
+  SliderFontSizeWidgetState createState() => SliderFontSizeWidgetState();
+}
+
+class SliderFontSizeWidgetState extends State<SliderFontSizeWidget>{
+  var _value = Options.getUserFontSize();
+  @override
+  Widget build(BuildContext context) {
+    return Slider(
+      value: _value,
+      activeColor: Colors.amber,
+      min: 10.0,
+      max: 20.0,
+      divisions: 10,
+      label: '${_value.round()}',
+      onChanged: (double value){
+        setState(() {
+          _value = value;
+        });
+      },
+      onChangeEnd: (double value){
+        Options.setUserFontSize(value);
       },
     );
   }

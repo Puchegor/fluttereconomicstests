@@ -58,7 +58,7 @@ class MainPage extends StatelessWidget{
           pressNextBtn(context);
         },
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndDocked,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
     );
   }
 }
@@ -119,6 +119,7 @@ void pressNextBtn(BuildContext context){
       runTopicChoise(context, false);
       break;
     case 1:
+      runTopicChoise(context, true);
       break;
     case 2:
       break;
@@ -133,5 +134,5 @@ void runTopicChoise(BuildContext context, bool isControl)async{
         element.values.elementAt(2));
     topics.add(top);
   });
-  Navigator.push(context, MaterialPageRoute(builder: (context)=>topicChoiseWindow(topics:topics)));
+  Navigator.push(context, MaterialPageRoute(builder: (context)=>topicChoiseWindow(topics:topics, isControl: isControl,)));
 }

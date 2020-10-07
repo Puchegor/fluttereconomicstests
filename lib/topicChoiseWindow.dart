@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 
 class topicChoiseWindow extends StatefulWidget{
   List<topic>topics = [];
-  topicChoiseWindow({Key key, @required this.topics});
+  bool isControl;
+  topicChoiseWindow({Key key, @required this.topics, @required this.isControl});
   @override
   topicChoiseWindowState createState()=>topicChoiseWindowState();
 }
@@ -49,7 +50,7 @@ class topicChoiseWindowState extends State<topicChoiseWindow>{
           pressNextBtn(context, _selected);
         },
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndDocked,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
     );
   }
 }

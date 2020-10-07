@@ -4,6 +4,7 @@ import 'dart:async';
 
 import 'Question.dart';
 import 'dataBase.dart';
+import 'Result.dart';
 
 class testPage extends StatefulWidget{
   int idTopic;
@@ -13,7 +14,7 @@ class testPage extends StatefulWidget{
 }
 
 class testPageState extends State<testPage>{
-  int _answer;
+  Answer _usersAnswer;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,32 +49,7 @@ class testPageState extends State<testPage>{
                         else if (snapQuestion.hasError)
                           return Text('ERROR: ${snapQuestion.error}');
                         else
-                          return Column(
-                            children: <Widget>[
-                              Text(snapQuestion.data.getNameQuestion(),
-                                style: TextStyle(
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.bold),
-                                textAlign: TextAlign.left,),
-                              Container(
-                                  child: ListView.builder(
-                                      shrinkWrap: true,
-                                      itemCount: snapQuestion.data.getAnswers().length,
-                                      itemBuilder: (bc, ind){
-                                        return RadioListTile(
-                                          title: Text(snapQuestion.data.getAnswers()[ind].getNameAnswer(),
-                                            style: TextStyle(color: Colors.black),),
-                                          value: snapQuestion.data.getAnswers()[ind].getIdAnswer(),
-                                          groupValue: _answer,
-                                        );
-                                      })
-                              ),
-                              IconButton(icon: Icon(Icons.assignment_turned_in),
-                              color: Colors.teal,
-                              //onPressed: {},)
-                              )
-                            ],
-                          );
+                          return TestWidget(question: snapQuestion.data,);
                       },
                     )
                   );
@@ -92,7 +68,6 @@ class testPageState extends State<testPage>{
 }
 
 Future<List<int>>getQuestionsIDs(int idTopic) async{
-  print('Вход в getQuestionsIDs');
   List<int>ids = [];
   List<Map>_resultSet = await dataBase.select('SELECT _id FROM questions WHERE idTopic = $idTopic');
   _resultSet.forEach((element) {
@@ -124,4 +99,60 @@ Future<List<Answer>>getAnswers(int idQuestion) async {
   });
   answers.shuffle();
   return answers;
+}
+
+class TestWidget extends StatefulWidget{
+  Question question;
+  TestWidget({Key key, @required this.question});
+  @override
+  TestWidgetState createState() => TestWidgetState();
+}
+
+class TestWidgetState extends State<TestWidget>{
+  Answer _selectedAnswer;
+  List<Result>results = [];
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        Text(widget.question.getNameQuestion(),
+          style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold,),
+          textAlign: TextAlign.left,),
+        Container(
+          child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: widget.question.getAnswers().length,
+            itemBuilder: (bc, index){
+              return RadioListTile(
+                title: Text(widget.question.getAnswers()[index].getNameAnswer()),
+                value: widget.question.getAnswers()[index],
+                groupValue: _selectedAnswer,
+                onChanged: (Answer value){
+                  setState(() {
+                    _selectedAnswer = value;
+                  });
+                },
+              );
+            },
+          ),
+        ),
+        RaisedButton(
+          child: Icon(Icons.check),
+          color: Colors.green,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
+          onPressed: (){
+            Result result = new Result(widget.question.getIdQuestion(),
+                widget.question.getNameQuestion(), _selectedAnswer.getNameAnswer(),
+                widget.question.getCorrectAnswer());
+            results.add(result);
+
+
+            //Добавить условие из типа теста!
+            //Закрыть виджет
+            //Показать AlertDialog с результатом
+          },
+        )
+      ],
+    );
+  }
 }
