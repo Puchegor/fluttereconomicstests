@@ -156,3 +156,23 @@ class TestWidgetState extends State<TestWidget>{
     );
   }
 }
+
+class ConfirmButton extends StatefulWidget{
+  @override
+  ConfirmButtonState createState() => ConfirmButtonState();
+}
+
+class ConfirmButtonState extends State<ConfirmButton>{
+
+  bool isEnabled = false;
+
+  void confirm (){
+    Result result = new Result(); //Код для подтверждения выбора
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return RaisedButton(
+        onPressed: isEnabled ? () => confirm() : null);
+  }
+}
