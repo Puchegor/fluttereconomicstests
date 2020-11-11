@@ -3,8 +3,9 @@ class Result{
   String _nameQuestion;
   String _usersAnswer;
   String _correctAnswer;
+  bool _isUserRight;
 
-  Result(this._idQuestion, this._nameQuestion, this._usersAnswer, this._correctAnswer);
+  Result(this._idQuestion, this._nameQuestion, this._usersAnswer, this._correctAnswer, this._isUserRight);
 
   int getIDQuestion(){
     return _idQuestion;
@@ -20,5 +21,9 @@ class Result{
 
   String getCorrectAnswer(){
     return _correctAnswer;
+  }
+
+  bool getIsUserRight(){
+    return _isUserRight;
   }
 }

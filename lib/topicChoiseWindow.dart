@@ -47,7 +47,7 @@ class topicChoiseWindowState extends State<topicChoiseWindow>{
         tooltip: 'Продолжить',
         child: Icon(Icons.arrow_forward),
         onPressed: (){
-          pressNextBtn(context, _selected);
+          pressNextBtn(context, _selected, false);
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
@@ -55,8 +55,8 @@ class topicChoiseWindowState extends State<topicChoiseWindow>{
   }
 }
 
-void pressNextBtn(BuildContext context, int idTopic){
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>testPage(idTopic: idTopic)));
+void pressNextBtn(BuildContext context, int idTopic, bool isControl){
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>testPage(idTopic: idTopic, isControl: isControl,)));
 }
 
 
